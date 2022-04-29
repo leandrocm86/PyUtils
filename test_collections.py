@@ -6,7 +6,7 @@ def timed_exec(label, function, *parameters):
     function(*parameters)
     print(label, str((time.time() - ts)*1000))
 
-def test_list(list):    
+def run_list(list):    
     timed_exec("Lista preenchida em:", fill_right, list)
     timed_exec("Lista apagada em:", empty_right, list)
     timed_exec("Lista preenchida do comeco:", fill_left, list)
@@ -66,7 +66,9 @@ def media_Index(list):
         total += list[i]
     return round(total/len(list))
 
-print("---------- Testando lista comum ----------")
-test_list([])
-print("---------- Testando deque ----------")
-test_list(deque())
+def test_list():
+    print("---------- Testando lista comum ----------")
+    run_list([])
+def test_deque():
+    print("---------- Testando deque ----------")
+    run_list(deque())
