@@ -1,9 +1,12 @@
-import sistema as sis
 import pytest
+try:
+   import sistema as sis
+except ImportError:
+   import PyUtils.sistema as sis
 
 def test_leitura():
     saida = sis.ler('ls')
-    assert all(linha in saida for linha in ['sistema.py', 'test_sistema.py'])
+    assert all(linha in saida for linha in ['strings.py', 'sistema.py'])
 
 def test_exec():
     sis.exec('echo "  "')

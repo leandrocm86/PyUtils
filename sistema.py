@@ -1,9 +1,13 @@
 import os
-import strings as s
+try:
+    from strings import String
+except ImportError:
+    from PyUtils.strings import String
 
 def ler(comandos):
+    """ Executa os dados comandos no SO e retorna a saida deles no tipo PyUtils.strings.String """
     print("[SISTEMA] Executando '" + comandos + "'")                                                                                                                                                                                                                                                
-    return s.String(os.popen(comandos).read().strip())
+    return String(os.popen(comandos).read().strip())
 
 def exec(comandos, ignora_saida=False):
     """ Executa os dados comandos no SO. Nao espera retorno (saida).\n
