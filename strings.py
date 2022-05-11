@@ -20,6 +20,16 @@ class String(str):
         return int(self)
     def strip(self):
         return String(str.strip(self))
+    def aparar(self):
+        """ Metodo mutavel semelhante a strip """
+        self.val = str.strip(self)
+        return self
+    def replace(self, old, new):
+        return String(str.replace(self, old, new))
+    def trocar(self, old, new):
+        """ Metodo mutavel semelhante a replace """
+        self.val = str.replace(self, old, new)
+        return self
     def __add__(self, other):
         return String(self.val + str(other))
     def remove_ultimos(self, n):
@@ -38,6 +48,10 @@ class String(str):
         celulas = self.celulas_com(*strings)
         assert(len(celulas) <= 1)
         return celulas[0] if celulas else None
+    def __eq__(self, other):
+        return str.__eq__(self.val, other)
+    def __repr__(self, other):
+        return str.__repr__(self.val)
 
 # Funcao que transforma uma colecao em texto.
 def concatenar(colecao):
