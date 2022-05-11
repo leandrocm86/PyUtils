@@ -23,7 +23,7 @@ class String(str):
     def __add__(self, other):
         return String(self.val + str(other))
     def remove_ultimos(self, n):
-        return String(self[0 : len(self) - 2])
+        return String(self[0 : len(self) - n])
     def corta(self, *separador):
         return [String(s) for s in str.split(self, *separador)]
     def linhas_com(self, *strings):
@@ -42,21 +42,21 @@ class String(str):
 # Funcao que transforma uma colecao em texto.
 def concatenar(colecao):
     output = String("")
-    if type(colecao) is list:
+    if isinstance(colecao, list):
         output += "["
         for elemento in colecao:
             if len(output) > 1:
                 output += ", "
             output += elemento
         output += "]"
-    elif type(colecao) is dict:
+    elif isinstance(colecao, dict):
         output += "{"
         for chave,valor in colecao.items():
             if len(output) > 1:
                 output += ", "
             output += chave + ": " + (valor if type(valor) not in [list, Dict] else concatenar(valor))
         output += "}"
-    elif type(colecao) is groupby:
+    elif isinstance(colecao, groupby):
         output += "{"
         for chave,valor in colecao:
             if len(output) > 1:
