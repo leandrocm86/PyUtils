@@ -1,4 +1,4 @@
-import os
+from subprocess import PIPE, Popen
 try:
     from strings import String
 except ImportError:
@@ -6,16 +6,19 @@ except ImportError:
 
 def ler(comandos):
     """ Executa os dados comandos no SO e retorna a saida deles no tipo PyUtils.strings.String """
-    print("[SISTEMA] Executando '" + comandos + "'")                                                                                                                                                                                                                                                
-    return String(os.popen(comandos).read().strip())
+    print("[SISTEMA] Executando '" + comandos + "'")
+    p = Popen(comandos, shell=True, stdout=PIPE, stderr=PIPE)
+    stdout, stderr = p.communicate()
+    saida = '[ERRO] ' + str(stderr) if stderr else str(stdout.decode("utf-8")) 
+    return String(saida.strip())
 
 def exec(comandos, ignora_saida=False):
     """ Executa os dados comandos no SO. Nao espera retorno (saida).\n
     Se houver alguma saida, havera Exception, a menos que haja um segundo parametro True. """
     print("[SISTEMA] Executando '" + comandos + "'")
     if ignora_saida:
-        os.popen(comandos)
+        Popen(comandos, shell=True)
     else:
-        saida = os.popen(comandos).read()
+        saida = ler(comandos)
         if saida and saida.strip():
             raise Exception("Retorno inesperado para sistema.exec():", saida)
