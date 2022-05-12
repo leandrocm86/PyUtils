@@ -6,7 +6,7 @@ class String(str):
     def __eq__(self, other):
         return str.__eq__(self.val, other)
     def __repr__(self, other):
-        return str.__repr__(self.val)
+        return str.__repr__(self.val, other)
     def __add__(self, other):
         return String(self.val + str(other))
     @classmethod

@@ -10,7 +10,11 @@ def ler(comandos, log_silent=False):
         print("[SISTEMA] Executando '" + comandos + "'")
     p = Popen(comandos, shell=True, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
-    saida = '[ERRO] ' + str(stderr.decode("utf-8")) if stderr else str(stdout.decode("utf-8")) 
+    saida = ''
+    if stdout:
+        saida += str(stdout.decode("utf-8"))
+    if stderr:
+        saida += '[ERRO] ' + str(stderr.decode("utf-8"))
     return String(saida.strip())
 
 def exec(comandos, ignora_saida=False, log_silent=False):
