@@ -1,11 +1,58 @@
 #!/usr/bin/env python3
 
-from typing import Dict
-from itertools import groupby
-
 class String(str):
     def __init__(self, aString):
         self.val = aString
+    def __eq__(self, other):
+        return str.__eq__(self.val, other)
+    def __repr__(self, other):
+        return str.__repr__(self.val)
+    def __add__(self, other):
+        return String(self.val + str(other))
+    @classmethod
+    def fromdate(cls, date, format='%d/%m/%Y'):
+        import datetime
+        if not date: date=datetime.date.today()
+        #if not format: format='%d/%m/%Y'
+        return cls(date.strftime(format))
+    @staticmethod
+    def strtodate(string, format='%d/%m/%Y'):
+        import datetime
+        return datetime.datetime.strptime(string, format)
+    @staticmethod
+    def concatenar(colecao):
+        """Funcao que transforma uma colecao em texto"""
+        output = String("")
+        if isinstance(colecao, list):
+            output += "["
+            for elemento in colecao:
+                if len(output) > 1:
+                    output += ", "
+                output += elemento
+            output += "]"
+        else:
+            from typing import Dict
+            if isinstance(colecao, Dict):
+                output += "{"
+                for chave,valor in colecao.items():
+                    if len(output) > 1:
+                        output += ", "
+                    output += chave + ": " + (valor if type(valor) not in [list, ] else String.concatenar(valor))
+                output += "}"
+            else:
+                from itertools import groupby
+                if isinstance(colecao, groupby):
+                    output += "{"
+                    for chave,valor in colecao:
+                        if len(output) > 1:
+                            output += ", "
+                        output += chave + ": " + String.concatenar(list(valor))
+                    output += "}"
+                else:
+                    raise Exception("Tipo nao conhecido para concatenacao de String: " + str(type(colecao)))
+        return output
+    def todate(self, format='%d/%m/%Y'):
+        return String.strtodate(self.val, format)
     def desde(self, inicio):
         return String(self.partition(inicio)[2])
     def ate(self, fim):
@@ -30,8 +77,6 @@ class String(str):
         """ Metodo mutavel semelhante a replace """
         self.val = str.replace(self, old, new)
         return self
-    def __add__(self, other):
-        return String(self.val + str(other))
     def remove_ultimos(self, n):
         return String(self[0 : len(self) - n])
     def corta(self, *separador):
@@ -48,35 +93,4 @@ class String(str):
         celulas = self.celulas_com(*strings)
         assert(len(celulas) <= 1)
         return celulas[0] if celulas else None
-    def __eq__(self, other):
-        return str.__eq__(self.val, other)
-    def __repr__(self, other):
-        return str.__repr__(self.val)
 
-# Funcao que transforma uma colecao em texto.
-def concatenar(colecao):
-    output = String("")
-    if isinstance(colecao, list):
-        output += "["
-        for elemento in colecao:
-            if len(output) > 1:
-                output += ", "
-            output += elemento
-        output += "]"
-    elif isinstance(colecao, dict):
-        output += "{"
-        for chave,valor in colecao.items():
-            if len(output) > 1:
-                output += ", "
-            output += chave + ": " + (valor if type(valor) not in [list, Dict] else concatenar(valor))
-        output += "}"
-    elif isinstance(colecao, groupby):
-        output += "{"
-        for chave,valor in colecao:
-            if len(output) > 1:
-                output += ", "
-            output += chave + ": " + concatenar(list(valor))
-        output += "}"
-    else:
-        output += "Erro: concatenando tipo " + str(type(colecao))
-    return output

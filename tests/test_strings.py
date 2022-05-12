@@ -40,3 +40,23 @@ def test_trocar():
     mutavel = String('abacaxi')
     mutavel.trocar('a', 'e')
     assert mutavel == 'ebecexi'
+
+def test_strtodate():
+    data = String.strtodate('05/01/1986')
+    assert data.year == 1986
+    assert data.month == 1
+    assert data.day == 5
+
+def test_todate():
+    data = String('05/01/1986 13:30').todate('%d/%m/%Y %H:%M')
+    assert data.year == 1986
+    assert data.month == 1
+    assert data.day == 5
+    assert data.hour == 13
+    assert data.minute == 30
+
+def test_fromdate():
+    data = String('05/01/1986 13:30:59').todate('%d/%m/%Y %H:%M:%S')
+    assert String.fromdate(data, '%d-%m-%Y %H:%M') == '05-01-1986 13:30'
+    data = String.strtodate('31/12/2000')
+    assert String.fromdate(data, '%d-%m-%Y - %H:%M') == '31-12-2000 - 00:00'
