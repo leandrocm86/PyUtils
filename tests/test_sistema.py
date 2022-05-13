@@ -1,8 +1,6 @@
 import pytest
-try:
-   import sistema as sis
-except ImportError:
-   import PyUtils.sistema as sis
+try: import sistema as sis
+except ImportError: import PyUtils.sistema as sis
 
 def test_leitura():
     saida = sis.ler('ls')
@@ -10,7 +8,7 @@ def test_leitura():
 
 def test_leitura_error():
     saida = sis.ler('ofjho0eijf')
-    assert 'command not found' in saida 
+    assert 'not found' in saida 
 
 def test_exec():
     sis.exec('find -name ijisjwijs')
@@ -24,6 +22,6 @@ def test_exec_fail():
         sis.exec('ls')
 
 def test_ler_ok_and_fail():
-    curl = sis.ler("curl -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/leandrocm86/traffic-monitor/actions/artifacts -u leandrocm86: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 | head -12 | grep created")
+    curl = sis.ler("curl -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/leandrocm86/traffic-monitor/actions/artifacts -u leandrocm86:$GITTOKEN | head -12 | grep created")
     assert 'ERRO' in curl
     assert 'created_at' in curl

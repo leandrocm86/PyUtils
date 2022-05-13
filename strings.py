@@ -5,8 +5,8 @@ class String(str):
         self.val = aString
     def __eq__(self, other):
         return str.__eq__(self.val, other)
-    def __repr__(self, other):
-        return str.__repr__(self.val, other)
+    def __repr__(self):
+        return str.__repr__(self.val)
     def __add__(self, other):
         return String(self.val + str(other))
     @classmethod
