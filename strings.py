@@ -10,7 +10,7 @@ class String(str):
     def __add__(self, other):
         return String(self.val + str(other))
     @classmethod
-    def fromdate(cls, date, format='%d/%m/%Y'):
+    def fromdate(cls, date=None, format='%d/%m/%Y'):
         import datetime
         if not date: date=datetime.date.today()
         #if not format: format='%d/%m/%Y'
