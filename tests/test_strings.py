@@ -1,4 +1,4 @@
-from strings import String
+from pyutils.strings import String
 
 def test_linha_com():
     texto = String('abaxi ácido\nbanana doce\nlaranja doce\nmorango bom')

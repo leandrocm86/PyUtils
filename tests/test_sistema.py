@@ -1,6 +1,5 @@
 import pytest
-try: import sistema as sis
-except ImportError: import PyUtils.sistema as sis
+from pyutils import sistema as sis
 
 def test_leitura():
     saida = sis.ler('ls')
