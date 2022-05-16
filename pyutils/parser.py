@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import PyUtils.strings as s
+from .strings import String
 
 class TextoParseado:
     def __init__(self):
@@ -12,21 +12,21 @@ class TextoParseado:
         # else:
             # print("Pedido para adicionar elemento nulo")
     def __str__(self):
-        return s.concatenar(self.elementos)
+        return String.concatenar(self.elementos)
             
 class ElementoParseado:
     def __init__(self):
-        self.chave = s.String("")
+        self.chave = String("")
         self.atributos = dict([])
     def set_chave(self, chave):
         # print("Setando chave", chave)
-        self.chave = s.String(chave)
+        self.chave = String(chave)
     def add_atributo(self, chave_atributo, valor_atributo):
         # print("Adicionando atributo", chave_atributo, "com valor", valor_atributo)
-        self.atributos[chave_atributo] = s.String(valor_atributo)
+        self.atributos[chave_atributo] = String(valor_atributo)
         # self.print()
     def __str__(self):
-        return s.String("(chave: " + self.chave + ", atributos: " + s.concatenar(self.atributos) + ")")
+        return String("(chave: " + self.chave + ", atributos: " + String.concatenar(self.atributos) + ")")
 
 class Parser:
     def __init__(self):
