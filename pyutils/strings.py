@@ -9,6 +9,10 @@ class String(str):#
         return str.__repr__(self.val)
     def __add__(self, other):
         return String(self.val + str(other))
+    def __str__(self):
+        return str.__str__(self.val)
+    def __hash__(self):
+        return str.__hash__(self.val)
     @classmethod
     def fromdate(cls, date=None, format='%d/%m/%Y'):
         import datetime
@@ -31,8 +35,7 @@ class String(str):#
                 output += elemento
             output += "]"
         else:
-            from typing import Dict
-            if isinstance(colecao, Dict):
+            if isinstance(colecao, dict):
                 output += "{"
                 for chave,valor in colecao.items():
                     if len(output) > 1:

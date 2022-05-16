@@ -2,7 +2,7 @@ import pytest
 from pyutils import sistema as sis
 
 def test_leitura():
-    saida = sis.ler('ls')
+    saida = sis.ler('ls pyutils')
     assert all(linha in saida for linha in ['strings.py', 'sistema.py'])
 
 def test_leitura_error():
