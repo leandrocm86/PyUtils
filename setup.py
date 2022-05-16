@@ -16,6 +16,6 @@ setuptools.setup(
         "Bug Tracker": "https://github.com/leandrocm86/PyUtils/issues"
     },
     license='MIT',
-    packages=['PyUtils'],
+    packages=['pyutils'],
     install_requires=[],
 )
