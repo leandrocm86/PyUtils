@@ -61,9 +61,17 @@ class String(str):#
     def ate(self, fim):
         return String(self.partition(fim)[0])
     def desde_incluso(self, inicio):
-        return String(self.partition(inicio)[1:2])
+        part = self.partition(inicio)
+        return String(part[1]+part[2])
     def ate_incluso(self, fim):
-        return String(self.partition(fim)[0:1])
+        part = self.partition(fim)
+        return String(part[0]+part[1])
+    def desde_ultimo(self, inicio, inicio_incluso=False):
+        part = self.rpartition(inicio)
+        return String(part[1]+part[2]) if inicio_incluso else String(part[2]) 
+    def ate_ultimo(self, fim, fim_incluso=False):
+        part = self.rpartition(fim)
+        return String(part[0]+part[1]) if fim_incluso else String(part[0]) 
     def contem_todos(self, *strings):
         return all(x in self for x in strings)
     def int(self):

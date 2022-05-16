@@ -1,4 +1,4 @@
-import time
+""" import time
 from collections import deque
 
 def timed_exec(label, function, *parameters):
@@ -72,3 +72,4 @@ def test_list():
 def test_deque():
     print("---------- Testando deque ----------")
     run_list(deque())
+ """
