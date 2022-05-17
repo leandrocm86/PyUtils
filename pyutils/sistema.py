@@ -20,11 +20,11 @@ class Sistema:
     def exec(comandos, ignora_saida=False, log_silent=False):
         """ Executa os dados comandos no SO. Nao espera retorno (saida).\n
         Se houver alguma saida, havera Exception, a menos que haja um segundo parametro True. """
-        if not log_silent:
-            print("[SISTEMA] Executando '" + comandos + "'")
         if ignora_saida:
+            if not log_silent:
+                print("[SISTEMA] Executando '" + comandos + "'")
             Popen(comandos, shell=True)
         else:
-            saida = Sistema.ler(comandos, log_silent=False)
+            saida = Sistema.ler(comandos, log_silent)
             if saida and saida.strip():
                 raise Exception("Retorno inesperado para sistema.exec():", saida)
