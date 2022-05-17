@@ -19,6 +19,12 @@ def test_desde_ate():
     texto = String('↳ Corsair Corsair STRAFE Gaming Keyboard Consumer Control   id=19   [slave  keyboard (3)]')
     assert texto.desde('id=').ate(' ') == '19'
     assert texto.desde_incluso('[').ate_incluso(']') == '[slave  keyboard (3)]'
+    assert texto.desde('STRAFE').ate('abcd').ate('Control') == ' Gaming Keyboard Consumer '
+
+def test_desde_ultimo_ate_ultimo():
+    s = String('/home/l86/scripts/teste.py')
+    assert s.desde_ultimo('/') == 'teste.py'
+    assert s.ate_ultimo('/', fim_incluso=True) == '/home/l86/scripts/'
 
 def test_strip():
     original = String(' teste123\n')
@@ -69,11 +75,6 @@ def test_hash():
     assert mapa[String('teste')] == 1
     assert mapa['teste2'] == 2
     
-def test_desde_ultimo_ate_ultimo():
-    s = String('/home/l86/scripts/teste.py')
-    assert s.desde_ultimo('/') == 'teste.py'
-    assert s.ate_ultimo('/', fim_incluso=True) == '/home/l86/scripts/'
-
 def test_split():
     assert String('abc\ndef\n').split('\n') == ['abc', 'def', '']
     assert String('').split('\n') == ['']
