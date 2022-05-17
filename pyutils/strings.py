@@ -92,6 +92,9 @@ class String(str):#
         return String(self[0 : len(self) - n])
     def corta(self, *separador):
         return [String(s) for s in str.split(self, *separador)]
+    def linhas(self):
+        lines = self.val.splitlines()
+        return [String(l) for l in lines if l and l.strip()]
     def linhas_com(self, *strings):
         return [l for l in self.corta('\n') if all(s in l for s in strings)]
     def linha_com(self, *strings):
@@ -104,4 +107,6 @@ class String(str):#
         celulas = self.celulas_com(*strings)
         assert(len(celulas) <= 1)
         return celulas[0] if celulas else None
+    def vazia(self):
+        return not self.val or not self.val.strip()
 

@@ -73,4 +73,24 @@ def test_desde_ultimo_ate_ultimo():
     s = String('/home/l86/scripts/teste.py')
     assert s.desde_ultimo('/') == 'teste.py'
     assert s.ate_ultimo('/', fim_incluso=True) == '/home/l86/scripts/'
+
+def test_split():
+    assert String('abc\ndef\n').split('\n') == ['abc', 'def', '']
+    assert String('').split('\n') == ['']
+    assert String('\n').split('\n') == ['', '']
+
+def test_splitlines():
+    assert String('abc\ndef\n').splitlines() == ['abc', 'def']
+    assert String('').splitlines() == []
+    assert String('\n').splitlines() == ['']
+
+def test_linhas():
+    assert String('abc\ndef\n').linhas() == ['abc', 'def']
+    assert String('').linhas() == []
+    assert String('\n').linhas() == []
+
+def test_vazia():
+    assert String('').vazia() == True
+    assert String('   \n').vazia() == True
+    assert String('.').vazia() == False
     
