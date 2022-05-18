@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-class String(str):#
+class String(str):
     def __init__(self, aString):
         self.val = aString
     def __eq__(self, other):
@@ -17,7 +17,6 @@ class String(str):#
     def fromdate(cls, date=None, format='%d/%m/%Y'):
         import datetime
         if not date: date=datetime.date.today()
-        #if not format: format='%d/%m/%Y'
         return cls(date.strftime(format))
     @staticmethod
     def strtodate(string, format='%d/%m/%Y'):
@@ -93,8 +92,7 @@ class String(str):#
     def corta(self, *separador):
         return [String(s) for s in str.split(self, *separador)]
     def linhas(self):
-        lines = self.val.splitlines()
-        return [String(l) for l in lines if l and l.strip()]
+        return [String(l) for l in self.val.splitlines() if l and l.strip()]
     def linhas_com(self, *strings):
         return [l for l in self.corta('\n') if all(s in l for s in strings)]
     def linha_com(self, *strings):
