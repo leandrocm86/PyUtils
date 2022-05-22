@@ -13,6 +13,8 @@ class String(str):
         return str.__str__(self.val)
     def __hash__(self):
         return str.__hash__(self.val)
+    def __len__(self):
+        return str.__len__(self.val)
     @classmethod
     def fromdate(cls, date=None, format='%d/%m/%Y'):
         import datetime
@@ -107,4 +109,9 @@ class String(str):
         return celulas[0] if celulas else None
     def vazia(self):
         return not self.val or not self.val.strip()
-
+    def add(self, s, index=None):
+        """ Metodo mutavel. Concatena string em dado indice """
+        if index:
+            self.val = self.val[:index] + s + self.val[index:]
+        else: self.val += s
+        return self

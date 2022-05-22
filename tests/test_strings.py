@@ -95,3 +95,14 @@ def test_vazia():
     assert String('   \n').vazia() == True
     assert String('.').vazia() == False
     
+def test_length():
+    s = String("abc")
+    assert len(s) == 3
+    s.trocar('b', 'abc')
+    assert len(s) == 5
+    
+def test_add():
+    s = String('abc')
+    assert s.add('def') == 'abcdef'
+    s.add('ghi', len(s)-3)
+    assert s == 'abcghidef'
