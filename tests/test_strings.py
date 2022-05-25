@@ -106,3 +106,7 @@ def test_add():
     assert s.add('def') == 'abcdef'
     s.add('ghi', len(s)-3)
     assert s == 'abcghidef'
+
+def test_mask():
+    assert String('05/01/1986').mask("##/##/####") == '05/01/1986'
+    assert String('06742776609').mask("###.###.###-##") == '067.427.766-09'

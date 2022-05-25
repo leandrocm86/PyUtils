@@ -15,6 +15,10 @@ class String(str):
         return str.__hash__(self.val)
     def __len__(self):
         return str.__len__(self.val)
+    def __getitem__(self, i):
+        return self.val.__getitem__(i)
+    def __setitem__(self, i, v):
+        self.val.__setitem__(i, v)
     @classmethod
     def fromdate(cls, date=None, format='%d/%m/%Y'):
         import datetime
@@ -114,4 +118,17 @@ class String(str):
         if index:
             self.val = self.val[:index] + s + self.val[index:]
         else: self.val += s
+        return self
+    def mask(self, format):
+        """ Metodo mutavel. Aplica uma dada mascara.\n 
+        Cada caractere da string substitui, em ordem, cada tralha (#) da mascara. \n 
+        Os demais caracteres sao inseridos, se necessario. """
+        assert len(format) >= len(self.val) and format.count('#') <= len(self.val)
+        mask_chars = {}
+        for index, c in enumerate(format):
+            if c != '#':
+                mask_chars[index] = c
+        for index, c in mask_chars.items():
+            if self[index] != c:
+                self.add(c, index)
         return self
