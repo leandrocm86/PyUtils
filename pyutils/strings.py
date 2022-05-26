@@ -25,8 +25,11 @@ class String(str):
         return float(self.val)
     @classmethod
     def fromdate(cls, date=None, format='%d/%m/%Y'):
+        """ Instancia uma String a partir de uma data (datetime) e um formato.\n
+        Na ausencia de data, sera usada a data atual.\n
+        Um exemplo de formato: '%d/%m/%Y %H:%M:%S,%f' """
         import datetime
-        if not date: date=datetime.date.today()
+        if not date: date = datetime.datetime.today() # tem que ser de datetime, nao de time
         return cls(date.strftime(format))
     @staticmethod
     def strtodate(string, format='%d/%m/%Y'):

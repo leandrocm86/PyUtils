@@ -67,6 +67,7 @@ def test_fromdate():
     assert String.fromdate(data, '%d-%m-%Y %H:%M') == '05-01-1986 13:30'
     data = String.strtodate('31/12/2000')
     assert String.fromdate(data, '%d-%m-%Y - %H:%M') == '31-12-2000 - 00:00'
+    assert String.fromdate(format='%H:%M:%S,%f') != '00:00:00.000000'
 
 def test_hash():
     mapa = dict([])
