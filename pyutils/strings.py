@@ -19,6 +19,10 @@ class String(str):
         return self.val.__getitem__(i)
     def __setitem__(self, i, v):
         self.val.__setitem__(i, v)
+    def __int__(self):
+        return int(self.val)
+    def __float__(self):
+        return float(self.val)
     @classmethod
     def fromdate(cls, date=None, format='%d/%m/%Y'):
         import datetime

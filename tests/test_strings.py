@@ -110,3 +110,9 @@ def test_add():
 def test_mask():
     assert String('05/01/1986').mask("##/##/####") == '05/01/1986'
     assert String('06742776609').mask("###.###.###-##") == '067.427.766-09'
+
+def test_parse():
+    s = String('50')
+    s.val = '60'
+    assert int(s) == 60
+    assert float(s) == 60.0
