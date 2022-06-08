@@ -105,7 +105,7 @@ def test_length():
 def test_add():
     s = String('abc')
     assert s.add('def') == 'abcdef'
-    s.add('ghi', len(s)-3)
+    s.add('ghi', -3)
     assert s == 'abcghidef'
 
 def test_mask():
@@ -117,3 +117,8 @@ def test_parse():
     s.val = '60'
     assert int(s) == 60
     assert float(s) == 60.0
+
+def test_get():
+    s = String('abcd')
+    s = s[:-1]
+    assert s == 'abc' and isinstance(s, String)

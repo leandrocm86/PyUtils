@@ -16,7 +16,7 @@ class String(str):
     def __len__(self):
         return str.__len__(self.val)
     def __getitem__(self, i):
-        return self.val.__getitem__(i)
+        return String(self.val.__getitem__(i))
     def __setitem__(self, i, v):
         self.val.__setitem__(i, v)
     def __int__(self):
