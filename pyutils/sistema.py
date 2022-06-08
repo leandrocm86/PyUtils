@@ -41,3 +41,10 @@ class Sistema:
         Para isso, nao eh possivel verificar a saida da execucao e nem definir um timeout."""
         Sistema.exec(comandos, True, log_silent, 0)
     
+    @staticmethod
+    def file_path(file):
+        """ Retorna o diretorio completo do arquivo passado como parametro.\n
+        Para saber o diretorio corrente do script em execucao, executar Sistema.file_path(__file__)"""
+        import os
+        return os.path.abspath(os.path.dirname(file)) + '/'
+    

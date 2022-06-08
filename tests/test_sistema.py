@@ -40,3 +40,6 @@ def test_exec_timeout():
         Sistema.exec('sleep 1', timeout=0.2)
     except: assert 0.2 <= Cronometro.check() < 0.3
 
+def test_file_path():
+    assert '/scripts/mods/PyUtils/tests/' in Sistema.file_path(__file__)
+
