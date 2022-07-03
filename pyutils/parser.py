@@ -26,7 +26,7 @@ class ElementoParseado:
         self.atributos[chave_atributo] = String(valor_atributo)
         # self.print()
     def __str__(self):
-        return String("(chave: " + self.chave + ", atributos: " + String.concatenar(self.atributos) + ")")
+        return String("(chave: " + self.chave + ", atributos: " + String.concat(self.atributos) + ")")
 
 class Parser:
     def __init__(self):
