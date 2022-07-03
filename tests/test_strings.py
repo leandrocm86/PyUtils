@@ -1,72 +1,72 @@
 from pyutils.strings import String
 
-def test_linha_com():
-    texto = String('abaxi ácido\nbanana doce\nlaranja doce\nmorango bom')
-    assert texto.linha_com('banana') == 'banana doce'
-    assert texto.linha_com('banana', 'doce') == 'banana doce'
-    assert texto.linha_com('abacate') == None
+def test_line_with():
+    text = String('abaxi ácido\nbanana doce\nlaranja doce\nmorango bom')
+    assert text.line_with('banana') == 'banana doce'
+    assert text.line_with('banana', 'doce') == 'banana doce'
+    assert text.line_with('abacate') == None
 
-def test_linhas_com():
-    texto = String('abaxi ácido\nbanana doce\nlaranja doce\nmorango bom')
-    assert texto.linhas_com('doce') == ['banana doce', 'laranja doce']
-    assert texto.linhas_com('azedo') == []
+def test_lines_with():
+    text = String('abaxi ácido\nbanana doce\nlaranja doce\nmorango bom')
+    assert text.lines_with('doce') == ['banana doce', 'laranja doce']
+    assert text.lines_with('azedo') == []
 
-def test_celula_com():
-    texto = String('↳ Corsair Corsair STRAFE Gaming Keyboard Consumer Control   id=19   [slave  keyboard (3)]')
-    assert texto.celula_com('id=') == 'id=19'
+def test_cell_with():
+    text = String('↳ Corsair Corsair STRAFE Gaming Keyboard Consumer Control   id=19   [slave  keyboard (3)]')
+    assert text.cell_with('id=') == 'id=19'
 
-def test_desde_ate():
-    texto = String('↳ Corsair Corsair STRAFE Gaming Keyboard Consumer Control   id=19   [slave  keyboard (3)]')
-    assert texto.desde('id=').ate(' ') == '19'
-    assert texto.desde_incluso('[').ate_incluso(']') == '[slave  keyboard (3)]'
-    assert texto.desde('STRAFE').ate('abcd').ate('Control') == ' Gaming Keyboard Consumer '
+def test_since_until():
+    text = String('↳ Corsair Corsair STRAFE Gaming Keyboard Consumer Control   id=19   [slave  keyboard (3)]')
+    assert text.since('id=').until(' ') == '19'
+    assert text.since_including('[').until_including(']') == '[slave  keyboard (3)]'
+    assert text.since('STRAFE').until('abcd').until('Control') == ' Gaming Keyboard Consumer '
 
-def test_desde_ultimo_ate_ultimo():
+def test_since_last_until_last():
     s = String('/home/l86/scripts/teste.py')
-    assert s.desde_ultimo('/') == 'teste.py'
-    assert s.ate_ultimo('/', fim_incluso=True) == '/home/l86/scripts/'
+    assert s.since_last('/') == 'teste.py'
+    assert s.until_last('/', including_end=True) == '/home/l86/scripts/'
 
 def test_strip():
     original = String(' teste123\n')
-    alteracao = original.strip()
+    change = original.strip()
     assert original == ' teste123\n'
-    assert alteracao == 'teste123'
+    assert change == 'teste123'
 
-def test_aparar():
+def test_trim():
     mutavel = String(' teste123\n')
-    mutavel.aparar()
+    mutavel.trim()
     assert mutavel.val == 'teste123'
 
 def test_replace():
     original = String('abacaxi')
-    alteracao = original.replace('a', 'e')
+    change = original.replace('a', 'e')
     assert original == 'abacaxi'
-    assert alteracao == 'ebecexi'
+    assert change == 'ebecexi'
 
-def test_trocar():
+def test_change():
     mutavel = String('abacaxi')
-    mutavel.trocar('a', 'e')
+    mutavel.change('a', 'e')
     assert mutavel == 'ebecexi'
 
 def test_strtodate():
-    data = String.strtodate('05/01/1986')
-    assert data.year == 1986
-    assert data.month == 1
-    assert data.day == 5
+    date = String.strtodate('05/01/1986')
+    assert date.year == 1986
+    assert date.month == 1
+    assert date.day == 5
 
 def test_todate():
-    data = String('05/01/1986 13:30').todate('%d/%m/%Y %H:%M')
-    assert data.year == 1986
-    assert data.month == 1
-    assert data.day == 5
-    assert data.hour == 13
-    assert data.minute == 30
+    date = String('05/01/1986 13:30').todate('%d/%m/%Y %H:%M')
+    assert date.year == 1986
+    assert date.month == 1
+    assert date.day == 5
+    assert date.hour == 13
+    assert date.minute == 30
 
 def test_fromdate():
-    data = String('05/01/1986 13:30:59').todate('%d/%m/%Y %H:%M:%S')
-    assert String.fromdate(data, '%d-%m-%Y %H:%M') == '05-01-1986 13:30'
-    data = String.strtodate('31/12/2000')
-    assert String.fromdate(data, '%d-%m-%Y - %H:%M') == '31-12-2000 - 00:00'
+    date = String('05/01/1986 13:30:59').todate('%d/%m/%Y %H:%M:%S')
+    assert String.fromdate(date, '%d-%m-%Y %H:%M') == '05-01-1986 13:30'
+    date = String.strtodate('31/12/2000')
+    assert String.fromdate(date, '%d-%m-%Y - %H:%M') == '31-12-2000 - 00:00'
     assert String.fromdate(format='%H:%M:%S,%f') != '00:00:00.000000'
 
 def test_hash():
@@ -86,20 +86,20 @@ def test_splitlines():
     assert String('').splitlines() == []
     assert String('\n').splitlines() == ['']
 
-def test_linhas():
-    assert String('abc\ndef\n').linhas() == ['abc', 'def']
-    assert String('').linhas() == []
-    assert String('\n').linhas() == []
+def test_lines():
+    assert String('abc\ndef\n').lines() == ['abc', 'def']
+    assert String('').lines() == []
+    assert String('\n').lines() == []
 
-def test_vazia():
-    assert String('').vazia() == True
-    assert String('   \n').vazia() == True
-    assert String('.').vazia() == False
+def test_empty():
+    assert String('').empty() == True
+    assert String('   \n').empty() == True
+    assert String('.').empty() == False
     
 def test_length():
     s = String("abc")
     assert len(s) == 3
-    s.trocar('b', 'abc')
+    s.change('b', 'abc')
     assert len(s) == 5
     
 def test_add():

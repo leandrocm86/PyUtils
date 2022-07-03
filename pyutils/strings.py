@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+"""Extends the native string class to add new utility methods.\n
+Some of the added methods can change the value of the caller object,\n
+so these Strings are not always immutable like the native strings."""
 class String(str):
     def __init__(self, aString):
         self.val = aString
@@ -25,111 +28,111 @@ class String(str):
         return float(self.val)
     @classmethod
     def fromdate(cls, date=None, format='%d/%m/%Y'):
-        """ Instancia uma String a partir de uma data (datetime) e um formato.\n
-        Na ausencia de data, sera usada a data atual.\n
-        Um exemplo de formato: '%d/%m/%Y %H:%M:%S,%f' """
+        """ Instantiates a String from a date (datetime) and a format.\n
+        In the absence of a date, the current date is used.\n
+        An example of format: '%d/%m/%Y %H:%M:%S,%f' """
         import datetime
-        if not date: date = datetime.datetime.today() # tem que ser de datetime, nao de time
+        if not date: date = datetime.datetime.today()  # Must be datetime, not time
         return cls(date.strftime(format))
     @staticmethod
     def strtodate(string, format='%d/%m/%Y'):
         import datetime
         return datetime.datetime.strptime(string, format)
     @staticmethod
-    def concatenar(colecao):
-        """Funcao que transforma uma colecao em texto"""
+    def concat(collection):
+        """Function to turn a collection into a text."""
         output = String("")
-        if isinstance(colecao, list):
+        if isinstance(collection, list):
             output += "["
-            for elemento in colecao:
+            for item in collection:
                 if len(output) > 1:
                     output += ", "
-                output += elemento
+                output += item
             output += "]"
         else:
-            if isinstance(colecao, dict):
+            if isinstance(collection, dict):
                 output += "{"
-                for chave,valor in colecao.items():
+                for chave,value in collection.items():
                     if len(output) > 1:
                         output += ", "
-                    output += chave + ": " + (valor if type(valor) not in [list, ] else String.concatenar(valor))
+                    output += chave + ": " + (value if type(value) not in [list, ] else String.concat(value))
                 output += "}"
             else:
                 from itertools import groupby
-                if isinstance(colecao, groupby):
+                if isinstance(collection, groupby):
                     output += "{"
-                    for chave,valor in colecao:
+                    for chave,value in collection:
                         if len(output) > 1:
                             output += ", "
-                        output += chave + ": " + String.concatenar(list(valor))
+                        output += chave + ": " + String.concat(list(value))
                     output += "}"
                 else:
-                    raise Exception("Tipo nao conhecido para concatenacao de String: " + str(type(colecao)))
+                    raise Exception("Unrecognized type for String concatenation: " + str(type(collection)))
         return output
     def todate(self, format='%d/%m/%Y'):
         return String.strtodate(self.val, format)
-    def desde(self, inicio):
-        return String(self.partition(inicio)[2])
-    def ate(self, fim):
-        return String(self.partition(fim)[0])
-    def desde_incluso(self, inicio):
-        part = self.partition(inicio)
+    def since(self, start):
+        return String(self.partition(start)[2])
+    def until(self, end):
+        return String(self.partition(end)[0])
+    def since_including(self, start):
+        part = self.partition(start)
         return String(part[1]+part[2])
-    def ate_incluso(self, fim):
-        part = self.partition(fim)
+    def until_including(self, end):
+        part = self.partition(end)
         return String(part[0]+part[1])
-    def desde_ultimo(self, inicio, inicio_incluso=False):
-        part = self.rpartition(inicio)
-        return String(part[1]+part[2]) if inicio_incluso else String(part[2]) 
-    def ate_ultimo(self, fim, fim_incluso=False):
-        part = self.rpartition(fim)
-        return String(part[0]+part[1]) if fim_incluso else String(part[0]) 
-    def contem_todos(self, *strings):
+    def since_last(self, start, including_start=False):
+        part = self.rpartition(start)
+        return String(part[1]+part[2]) if including_start else String(part[2]) 
+    def until_last(self, end, including_end=False):
+        part = self.rpartition(end)
+        return String(part[0]+part[1]) if including_end else String(part[0]) 
+    def contains_all(self, *strings):
         return all(x in self for x in strings)
     def int(self):
         return int(self)
     def strip(self):
         return String(str.strip(self))
-    def aparar(self):
-        """ Metodo mutavel semelhante a strip """
+    def trim(self):
+        """ Mutable version of strip() """
         self.val = str.strip(self)
         return self
     def replace(self, old, new):
         return String(str.replace(self, old, new))
-    def trocar(self, old, new):
-        """ Metodo mutavel semelhante a replace """
+    def change(self, old, new):
+        """ Mutable version of replace() """
         self.val = str.replace(self, old, new)
         return self
-    def remove_ultimos(self, n):
+    def remove_last(self, n):
         return String(self[0 : len(self) - n])
-    def corta(self, *separador):
-        return [String(s) for s in str.split(self, *separador)]
-    def linhas(self):
+    def cut(self, *separator):
+        return [String(s) for s in str.split(self, *separator)]
+    def lines(self):
         return [String(l) for l in self.val.splitlines() if l and l.strip()]
-    def linhas_com(self, *strings):
-        return [l for l in self.corta('\n') if all(s in l for s in strings)]
-    def linha_com(self, *strings):
-        linhas = self.linhas_com(*strings)
-        assert(len(linhas) <= 1)
-        return linhas[0] if linhas else None
-    def celulas_com(self, *strings):
-        return [c for c in self.corta() if all(s in c for s in strings)]
-    def celula_com(self, *strings):
-        celulas = self.celulas_com(*strings)
-        assert(len(celulas) <= 1)
-        return celulas[0] if celulas else None
-    def vazia(self):
+    def lines_with(self, *strings):
+        return [l for l in self.cut('\n') if all(s in l for s in strings)]
+    def line_with(self, *strings):
+        lines = self.lines_with(*strings)
+        assert(len(lines) <= 1)
+        return lines[0] if lines else None
+    def cells_with(self, *strings):
+        return [c for c in self.cut() if all(s in c for s in strings)]
+    def cell_with(self, *strings):
+        cells = self.cells_with(*strings)
+        assert(len(cells) <= 1)
+        return cells[0] if cells else None
+    def empty(self):
         return not self.val or not self.val.strip()
     def add(self, s, index=None):
-        """ Metodo mutavel. Concatena string em dado indice """
+        """ Mutable method. Concatenates string in specific position. """
         if index:
             self.val = self.val[:index] + s + self.val[index:]
         else: self.val += s
         return self
     def mask(self, format):
-        """ Metodo mutavel. Aplica uma dada mascara.\n 
-        Cada caractere da string substitui, em ordem, cada tralha (#) da mascara. \n 
-        Os demais caracteres sao inseridos, se necessario. """
+        """ Mutable method. Applies a mask to the String.\n 
+        Each character from the String replaces (in order) each symbol (#) from the mask. \n 
+        The extra characters are inserted when/if needed. """
         assert len(format) >= len(self.val) and format.count('#') <= len(self.val)
         mask_chars = {}
         for index, c in enumerate(format):
