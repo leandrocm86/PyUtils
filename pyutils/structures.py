@@ -9,6 +9,15 @@ class Lists:
             return default
         return sum(listable) / len(listable)
 
+    @staticmethod
+    def groupby(list, keyfunction, ignore_nones=True) -> dict:
+        output = {}
+        for e in list:
+            key = keyfunction(e)
+            if key is not None or not ignore_nones:
+                output.setdefault(key, []).append(e)
+        return output
+
 
 class Dicts:
     
@@ -23,6 +32,4 @@ class Dicts:
             """ For use in dict of lists. """ 
             """ Append the value to a list in the dictionary. """
             """ Instantiates the list when the first value is being appended. """
-            if key not in dictionary:
-                dictionary[key] = []
-            dictionary[key].append(value)
+            dictionary.setdefault(key, []).append(value)
