@@ -2,11 +2,11 @@ class Lists:
 
     @staticmethod
     def average(listable, default=0):
-        """ Returns the average of the list. """
-        if not listable:
-            return default
+        """ Returns the average of the list. If it's empty, a default value is returned. """
         if not isinstance(listable, list):
             listable = list(listable)
+        if not listable:
+            return default
         return sum(listable) / len(listable)
 
 
@@ -14,7 +14,7 @@ class Dicts:
     
         @staticmethod
         def put_if_value(dictionary, key, value):
-            """ Put the value in the dictionary if it is not None. """
+            """ Put the value in the dictionary if it is not None or empty. """
             if value:
                 dictionary[key] = value
         

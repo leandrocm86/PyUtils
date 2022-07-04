@@ -5,6 +5,7 @@ def test_average():
     assert Lists.average([1, 2, 3]) == 2
     assert Lists.average([]) == 0
     assert Lists.average(i for i in range(11)) == 5
+    assert Lists.average(i for i in range(3) if i > 3) == 0
 
 
 def test_put_if_value():
