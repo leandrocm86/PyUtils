@@ -17,6 +17,15 @@ class Lists:
             if key is not None or not ignore_nones:
                 output.setdefault(key, []).append(e)
         return output
+    
+    @staticmethod
+    def get(list, index: int, default=None):
+        """ Returns the element at the given index of a list.\n
+        If it's out of bounds, or if it evaluates to false, a default value is returned. """
+        try:
+            return list[index] if list[index] else default
+        except IndexError:
+            return default
 
 
 class Dicts:

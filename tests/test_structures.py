@@ -17,6 +17,12 @@ def test_groupby():
     assert result == {'1': [1], '2': [2]}
 
 
+def test_get():
+    assert Lists.get([1, 2, 3], 0) == 1
+    assert Lists.get([1, 2, 3], 3, 4) == 4
+    assert Lists.get([1, 2, 0], -1, 5) == 5
+
+
 def test_put_if_value():
     d = {}
     Dicts.put_if_value(d, 'a', 1)
