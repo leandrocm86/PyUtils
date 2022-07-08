@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
-"""Extends the native string class to add new utility methods.\n
-Some of the added methods can change the value of the caller object,\n
-so these Strings are not always immutable like the native strings."""
 class String(str):
+    """Extends the native string class to add new utility methods.\n
+    Some of the added methods can change the value of the caller string,\n
+    so these Strings are not always immutable like the native strings."""
+
     def __init__(self, aString):
         self.val = aString
     def __eq__(self, other):

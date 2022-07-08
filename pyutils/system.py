@@ -48,4 +48,13 @@ class System:
         To know the current directory of the script being executed, run System.file_path(__file__)"""
         import os
         return String(os.path.abspath(os.path.dirname(file)) + '/')
-    
+
+    @staticmethod
+    def append_parent_syspath(file):
+        """ Appends the parent folder's path to syspath\n
+        Useful to import modules from parent folder. The reference for the file being used must be given.\n
+        Usage: System.append_parent_syspath(__file__)"""
+        import sys
+        import os
+        currentpath = os.path.dirname(os.path.realpath(__file__))                                                                                                                        
+        sys.path.append(os.path.dirname(currentpath))
