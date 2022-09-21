@@ -1,3 +1,5 @@
+from subprocess import TimeoutExpired
+from time import sleep
 import pytest
 from pyutils.clock import Clock
 from pyutils.system import System
@@ -51,3 +53,18 @@ def test_append_parent_syspath():
     import sys
     System.append_parent_syspath(__file__)
     assert sys.path[-1].endswith('PyUtils')
+
+
+def test_wait_for():
+    def test_func():
+        sleep(0.5)
+        return 'OK'
+    assert System.wait_for(test_func, 1, 0.1) == 'OK'
+
+
+def test_wait_for_fail():
+    Clock.check()
+    with pytest.raises(TimeoutExpired):
+        System.wait_for(lambda: None, 1, 0.1)
+    assert Clock.check() >= 1
+

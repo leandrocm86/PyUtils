@@ -1,1 +1,7 @@
 *pycache*
+.idea/modules.xml
+venv/pyvenv.cfg
+.idea/PyUtils.iml
+.idea/vcs.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/inspectionProfiles/Project_Default.xml

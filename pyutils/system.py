@@ -1,7 +1,3 @@
-from subprocess import PIPE, Popen
-from .strings import String
-
-
 class System:
 
     @staticmethod
@@ -10,6 +6,7 @@ class System:
             This call is always synchronous, but there is a timeout parameter for maximum wait."""
         if not log_silent:
             print("[System] Executing '" + commands + "'")
+        from subprocess import PIPE, Popen
         p = Popen(commands, shell=True, stdout=PIPE, stderr=PIPE)
         if timeout > 0:
             p.wait(timeout)
@@ -19,6 +16,7 @@ class System:
             output += str(stdout.decode("utf-8"))
         if stderr:
             output += '[ERROR] ' + str(stderr.decode("utf-8"))
+        from .strings import String
         return String(output.strip())
 
     @staticmethod
@@ -28,6 +26,7 @@ class System:
         if ignore_output:
             if not log_silent:
                 print("[System] Executing '" + commands + "'")
+            from subprocess import Popen
             p = Popen(commands, shell=True)
             if timeout > 0:
                 p.wait(timeout)
@@ -47,6 +46,7 @@ class System:
         """ Returns the full path of the given file.\n
         To know the current directory of the script being executed, run System.file_path(__file__)"""
         import os
+        from .strings import String
         return String(os.path.abspath(os.path.dirname(file)) + '/')
 
     @staticmethod
@@ -61,3 +61,23 @@ class System:
         if not silent:
             print(f'Appending {parentpath} on sys.path')                                                                                                                      
         sys.path.append(parentpath)
+    
+    @staticmethod
+    def wait_for(func, timeout=0, poll_interval=2):
+        """ Waits for a function evaluation to return an existing result (different than None, empty, etc).\n
+        The function is evaluated during each poll (2-sec intervals by default).\n
+        The result is returned when it exists (function output evaluated to True).\n
+        A timeout may be set (0 = None by default), so an exception is raised if there's no result up to a given time.\n
+        The timeout (if used) is not precise. It has an error margin equivalent to the poll_interval used."""
+        from time import sleep
+        waited = 0
+        while timeout == 0 or waited < timeout:
+             sleep(poll_interval)
+             result = func()
+             if result:
+                return result
+             waited += poll_interval
+        from subprocess import TimeoutExpired
+        raise TimeoutExpired(str(func), timeout)
+    
+
