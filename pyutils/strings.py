@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+from __future__ import annotations # This might be unnecessary in the future.
+
 
 class String(str):
     """Extends the native string class to add new utility methods.\n
@@ -28,7 +29,7 @@ class String(str):
     def __float__(self):
         return float(self.val)
     @classmethod
-    def fromdate(cls, date=None, format='%d/%m/%Y'):
+    def fromdate(cls, date=None, format='%d/%m/%Y') -> String:
         """ Instantiates a String from a date (datetime) and a format.\n
         In the absence of a date, the current date is used.\n
         An example of format: '%d/%m/%Y %H:%M:%S,%f' """
@@ -36,11 +37,11 @@ class String(str):
         if not date: date = datetime.datetime.today()  # Must be datetime, not time
         return cls(date.strftime(format))
     @staticmethod
-    def strtodate(string, format='%d/%m/%Y'):
+    def strtodate(string: str, format='%d/%m/%Y'):
         import datetime
         return datetime.datetime.strptime(string, format)
     @staticmethod
-    def concat(collection):
+    def concat(collection) -> String:
         """Function to turn a collection into a text."""
         output = String("")
         if isinstance(collection, list):
@@ -72,65 +73,71 @@ class String(str):
         return output
     def todate(self, format='%d/%m/%Y'):
         return String.strtodate(self.val, format)
-    def since(self, start):
-        return String(self.partition(start)[2])
-    def until(self, end):
-        return String(self.partition(end)[0])
-    def since_including(self, start):
-        part = self.partition(start)
-        return String(part[1]+part[2])
-    def until_including(self, end):
-        part = self.partition(end)
-        return String(part[0]+part[1])
-    def since_last(self, start, including_start=False):
-        part = self.rpartition(start)
-        return String(part[1]+part[2]) if including_start else String(part[2]) 
-    def until_last(self, end, including_end=False):
-        part = self.rpartition(end)
-        return String(part[0]+part[1]) if including_end else String(part[0]) 
-    def contains_all(self, *strings):
+    def subfrom(self, start: str, ocurrence=1, inclusive=True) -> String:
+        ind = 0
+        for i in range(ocurrence):
+            ind = self.index(start, ind + i*len(start))
+        ind += len(start) if not inclusive else 0
+        return String(self[ind:])
+    def tosub(self, end: str, ocurrence=1, inclusive=False) -> String:
+        ind = 0
+        for i in range(ocurrence):
+            ind = self.index(end, ind + i*len(end))
+        ind += len(end) if inclusive else 0
+        return String(self[:ind])
+    def subfromlast(self, start: str, inclusive=True) -> String:
+        ind = self.rindex(start)
+        ind += len(start) if not inclusive else 0
+        return String(self[ind:])
+    def tolastsub(self, end: str, inclusive=False) -> String:
+        ind = self.rindex(end)
+        ind += len(end) if inclusive else 0
+        return String(self[:ind]) 
+    def contains_all(self, *strings: str) -> bool:
         return all(x in self for x in strings)
-    def int(self):
+    def contains_any(self, *strings: str) -> bool:
+        return any(x in self for x in strings)
+    def int(self) -> int:
         return int(self)
-    def strip(self):
+    def strip(self) -> String:
         return String(str.strip(self))
-    def trim(self):
+    def trim(self) -> String:
         """ Mutable version of strip() """
         self.val = str.strip(self)
         return self
-    def replace(self, old, new):
+    def replace(self, old: str, new: str) -> String:
         return String(str.replace(self, old, new))
-    def change(self, old, new):
+    def change(self, old: str, new: str) -> String:
         """ Mutable version of replace() """
         self.val = str.replace(self, old, new)
         return self
-    def remove_last(self, n):
+    def remove_last(self, n: int) -> String:
         return String(self[0 : len(self) - n])
-    def cut(self, *separator):
+    def cut(self, *separator: str):
         return [String(s) for s in str.split(self, *separator)]
     def lines(self):
         return [String(l) for l in self.val.splitlines() if l and l.strip()]
-    def lines_with(self, *strings):
+    def lines_with(self, *strings: str):
         return [l for l in self.cut('\n') if all(s in l for s in strings)]
-    def line_with(self, *strings):
+    def line_with(self, *strings: str) -> String:
         lines = self.lines_with(*strings)
         assert(len(lines) <= 1)
         return lines[0] if lines else None
-    def cells_with(self, *strings):
+    def cells_with(self, *strings: str):
         return [c for c in self.cut() if all(s in c for s in strings)]
-    def cell_with(self, *strings):
+    def cell_with(self, *strings: str) -> String:
         cells = self.cells_with(*strings)
         assert(len(cells) <= 1)
         return cells[0] if cells else None
-    def empty(self):
+    def empty(self) -> bool:
         return not self.val or not self.val.strip()
-    def add(self, s, index=None):
+    def add(self, string: str, index=None) -> String:
         """ Mutable method. Concatenates string in specific position. """
         if index:
-            self.val = self.val[:index] + s + self.val[index:]
-        else: self.val += s
+            self.val = self.val[:index] + string + self.val[index:]
+        else: self.val += string
         return self
-    def mask(self, format):
+    def mask(self, format: str) -> String:
         """ Mutable method. Applies a mask to the String.\n 
         Each character from the String replaces (in order) each symbol (#) from the mask. \n 
         The extra characters are inserted when/if needed. """
