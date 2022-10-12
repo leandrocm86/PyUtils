@@ -73,26 +73,56 @@ class String(str):
         return output
     def todate(self, format='%d/%m/%Y'):
         return String.strtodate(self.val, format)
+    def startingwith(self, start: str, ocurrence=1) -> String:
+        """Returns the substring starting at (and including) the given text until the end.\n
+        The optional 'ocurrence' parameter can be used to consider the Nth ocurrence of the text.\n
+        An IndexError is raised it the text is not found."""
+        ind = 0
+        for i in range(ocurrence):
+            ind = self.index(start, ind + i*len(start))
+        return String(self[ind:])
+    def startingafter(self, start: str, ocurrence=1) -> String:
+        """Returns the substring starting at (NOT including) the given text until the end.\n
+        The optional 'ocurrence' parameter can be used to consider the Nth ocurrence of the text.\n
+        An IndexError is raised it the text is not found.\n
+        For ocurrence=1 (default), consider using the native partition(text)[2]."""
+        ind = 0
+        for i in range(ocurrence):
+            ind = self.index(start, ind + i*len(start))
+        ind += len(start)
+        return String(self[ind:]) 
     def subfrom(self, start: str, ocurrence=1, inclusive=True) -> String:
+        """ DEPRECATED. Use startingwith or startingafter instead """
         ind = 0
         for i in range(ocurrence):
             ind = self.index(start, ind + i*len(start))
         ind += len(start) if not inclusive else 0
         return String(self[ind:])
     def tosub(self, end: str, ocurrence=1, inclusive=False) -> String:
+        """ DEPRECATED. Use endingwith or endingafter instead """
         ind = 0
         for i in range(ocurrence):
             ind = self.index(end, ind + i*len(end))
         ind += len(end) if inclusive else 0
         return String(self[:ind])
-    def subfromlast(self, start: str, inclusive=True) -> String:
-        ind = self.rindex(start)
-        ind += len(start) if not inclusive else 0
-        return String(self[ind:])
-    def tolastsub(self, end: str, inclusive=False) -> String:
-        ind = self.rindex(end)
-        ind += len(end) if inclusive else 0
-        return String(self[:ind]) 
+    def endingwith(self, end: str, ocurrence=1) -> String:
+        """Returns the substring from the beginning until (and including) the given text.\n
+        The optional 'ocurrence' parameter can be used to consider the Nth ocurrence of the text.\n
+        An IndexError is raised it the text is not found."""
+        ind = 0
+        for i in range(ocurrence):
+            ind = self.index(end, ind + i*len(end))
+        ind += len(end)
+        return String(self[:ind])
+    def endingbefore(self, end: str, ocurrence=1) -> String:
+        """Returns the substring from the beginning until (NOT including) the given text.\n
+        The optional 'ocurrence' parameter can be used to consider the Nth ocurrence of the text.\n
+        An IndexError is raised it the text is not found.\n
+        For ocurrence=1 (default), consider using the native partition(text)[0]."""
+        ind = 0
+        for i in range(ocurrence):
+            ind = self.index(end, ind + i*len(end))
+        return String(self[:ind])
     def contains_all(self, *strings: str) -> bool:
         return all(x in self for x in strings)
     def contains_any(self, *strings: str) -> bool:

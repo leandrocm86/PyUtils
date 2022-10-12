@@ -21,17 +21,17 @@ def test_cell_with():
 
 def test_subfrom_tosub():
     text = String('↳ Corsair Corsair STRAFE Gaming Keyboard Consumer Control   id=19   [slave  keyboard (3)]')
-    assert text.subfrom('id=', inclusive=False).tosub(' ') == '19'
-    assert text.subfrom('[').tosub(']', inclusive=True) == '[slave  keyboard (3)]'
-    assert text.subfrom('STRAFE').tosub('Control') == 'STRAFE Gaming Keyboard Consumer '
+    assert text.startingafter('id=').endingbefore(' ') == '19'
+    assert text.startingwith('[').endingwith(']') == '[slave  keyboard (3)]'
+    assert text.startingwith('STRAFE').endingbefore('Control') == 'STRAFE Gaming Keyboard Consumer '
     text = String('abc1def1abc2def2abc3def3')
-    assert text.subfrom('abc', 2).tosub('def', 2) == 'abc2def2abc3'
+    assert text.startingwith('abc', 2).endingbefore('def', 2) == 'abc2def2abc3'
 
 
 def test_subfromlast_tolastsub():
     s = String('/home/l86/scripts/teste.py')
-    assert s.subfromlast('/', inclusive=False) == 'teste.py'
-    assert s.tolastsub('/', inclusive=True) == '/home/l86/scripts/'
+    assert s.startingafter('/', s.count('/')) == 'teste.py'
+    assert s.endingwith('/', s.count('/')) == '/home/l86/scripts/'
 
 
 def test_strip():
