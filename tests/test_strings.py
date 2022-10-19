@@ -81,7 +81,17 @@ def test_fromdate():
     assert String.fromdate(date, '%d-%m-%Y %H:%M') == '05-01-1986 13:30'
     date = String.strtodate('31/12/2000')
     assert String.fromdate(date, '%d-%m-%Y - %H:%M') == '31-12-2000 - 00:00'
-    assert String.fromdate(format='%H:%M:%S,%f') != '00:00:00.000000'
+
+
+def test_fromdate_now():
+    s1 = String.fromdate(format='%H:%M:%S')
+    assert len(s1) == 8 and s1 != '00:00:00'
+    s2 = String.fromdate(format='%H:%M:%S,%f')
+    assert len(s2) == 15 and s2 != '00:00:00.000000'
+    s3 = String.fromdate(format='%d/%m/%Y')
+    assert len(s3) == 10 and s3 != '01/01/1970'
+    s4 = String.fromdate(format='%d/%m/%Y %H:%M:%S')
+    assert len(s4) == 19 and s4 != '01/01/1970 00:00:00'
 
 
 def test_hash():
