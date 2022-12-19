@@ -46,7 +46,7 @@ def test_exec_timeout():
 
 
 def test_file_path():
-    assert '/scripts/mods/PyUtils/tests/' in System.file_path(__file__)
+    assert System.file_path(__file__).endswith('/PyUtils/tests/')
 
 
 def test_append_parent_syspath():
