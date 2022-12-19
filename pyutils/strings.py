@@ -76,7 +76,10 @@ class String(str):
     def startingwith(self, start: str, ocurrence=1) -> String:
         """Returns the substring starting at (and including) the given text until the end.\n
         The optional 'ocurrence' parameter can be used to consider the Nth ocurrence of the text.\n
-        An IndexError is raised it the text is not found."""
+        An IndexError is raised it the text is not found.
+        For ocurrence=1 (default), consider using the native start+str.partition(start)[2].\n
+        For more ocurrences, consider using regex re.search('(start.+)', str).group(3).
+        """
         ind = 0
         for i in range(ocurrence):
             ind = self.index(start, ind + i*len(start))
@@ -85,7 +88,8 @@ class String(str):
         """Returns the substring starting at (NOT including) the given text until the end.\n
         The optional 'ocurrence' parameter can be used to consider the Nth ocurrence of the text.\n
         An IndexError is raised it the text is not found.\n
-        For ocurrence=1 (default), consider using the native partition(text)[2]."""
+        For ocurrence=1 (default), consider using the native str.partition(text)[2].\n
+        For more ocurrences, consider using regex re.search('start(.+)', str).group(3)."""
         ind = 0
         for i in range(ocurrence):
             ind = self.index(start, ind + i*len(start))
@@ -108,7 +112,9 @@ class String(str):
     def endingwith(self, end: str, ocurrence=1) -> String:
         """Returns the substring from the beginning until (and including) the given text.\n
         The optional 'ocurrence' parameter can be used to consider the Nth ocurrence of the text.\n
-        An IndexError is raised it the text is not found."""
+        An IndexError is raised it the text is not found.\n
+        For ocurrence=1 (default), consider using the native str.partition(end)[0]+end.\n
+        For more ocurrences, consider using regex re.search('(.+end)', str).group(3)."""
         ind = 0
         for i in range(ocurrence):
             ind = self.index(end, ind + i*len(end))
@@ -118,7 +124,8 @@ class String(str):
         """Returns the substring from the beginning until (NOT including) the given text.\n
         The optional 'ocurrence' parameter can be used to consider the Nth ocurrence of the text.\n
         An IndexError is raised it the text is not found.\n
-        For ocurrence=1 (default), consider using the native partition(text)[0]."""
+        For ocurrence=1 (default), consider using the native str.partition(end)[0].\n
+        For more ocurrences, consider using regex re.search('(.+)end', str).group(3)."""
         ind = 0
         for i in range(ocurrence):
             ind = self.index(end, ind + i*len(end))
