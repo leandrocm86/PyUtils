@@ -73,31 +73,35 @@ class String(str):
         return output
     def todate(self, format='%d/%m/%Y'):
         return String.strtodate(self.val, format)
-    def startingwith(self, start: str, ocurrence=1) -> String:
+    def startingwith(self, start: str, occurrence=1) -> String:
         """Returns the substring starting at (and including) the given text until the end.\n
         The optional 'ocurrence' parameter can be used to consider the Nth ocurrence of the text.\n
         An IndexError is raised it the text is not found.\n
-        For ocurrence=1 (default), consider using the native start+str.partition(start)[2].
+        For occurrence=1 (default), consider using the native start+str.partition(start)[2].\n
+        For last occurrence, consider using the native start+str.rpartition(start)[2].
         """
-        return String(start + self.split(start, ocurrence)[ocurrence])
-    def startingafter(self, start: str, ocurrence=1) -> String:
+        return String(start + self.split(start, occurrence)[occurrence])
+    def startingafter(self, start: str, occurrence=1) -> String:
         """Returns the substring starting at (NOT including) the given text until the end.\n
         The optional 'ocurrence' parameter can be used to consider the Nth ocurrence of the text.\n
         An IndexError is raised it the text is not found.\n
-        For ocurrence=1 (default), consider using the native str.partition(start)[2]."""
-        return String(self.split(start, ocurrence)[ocurrence])
-    def endingwith(self, end: str, ocurrence=1) -> String:
+        For occurrence=1 (default), consider using the native str.partition(start)[2].\n
+        For last occurrence, consider using the native str.rpartition(start)[2]."""
+        return String(self.split(start, occurrence)[occurrence])
+    def endingwith(self, end: str, occurrence=1) -> String:
         """Returns the substring from the beginning until (and including) the given text.\n
         The optional 'ocurrence' parameter can be used to consider the Nth ocurrence of the text.\n
         An IndexError is raised it the text is not found.\n
-        For ocurrence=1 (default), consider using the native str.partition(end)[0]+end."""
-        return String(end.join(self.split(end, ocurrence)[:ocurrence]) + end)
-    def endingbefore(self, end: str, ocurrence=1) -> String:
+        For occurrence=1 (default), consider using the native str.partition(end)[0]+end.\n
+        For last occurrence, consider using the native str.rpartition(end)[0]+end."""
+        return String(end.join(self.split(end, occurrence)[:occurrence]) + end)
+    def endingbefore(self, end: str, occurrence=1) -> String:
         """Returns the substring from the beginning until (NOT including) the given text.\n
         The optional 'ocurrence' parameter can be used to consider the Nth ocurrence of the text.\n
         An IndexError is raised it the text is not found.\n
-        For ocurrence=1 (default), consider using the native str.partition(end)[0]."""
-        return String(end.join(self.split(end, ocurrence)[:ocurrence]))
+        For occurrence=1 (default), consider using the native str.partition(end)[0].\n
+        For last occurrence, consider using the native str.rpartition(end)[0]."""
+        return String(end.join(self.split(end, occurrence)[:occurrence]))
     def contains_all(self, *strings: str) -> bool:
         return all(x in self for x in strings)
     def contains_any(self, *strings: str) -> bool:
