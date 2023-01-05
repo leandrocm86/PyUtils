@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name='PyUtils',
-    version='0.26',
+    version='0.27',
     author='Leandro Medeiros',
     author_email='leandrocm86@gmail.com',
     description='Utility classes for Python',

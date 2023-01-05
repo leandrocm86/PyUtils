@@ -93,14 +93,16 @@ class String(str):
         The optional 'ocurrence' parameter can be used to consider the Nth ocurrence of the text.\n
         An IndexError is raised it the text is not found.\n
         For occurrence=1 (default), consider using the native str.partition(end)[0]+end.\n
-        For last occurrence, consider using the native str.rpartition(end)[0]+end."""
+        For last occurrence, consider using the native str.rpartition(end)[0]+end.\n
+        For a known Nth ocurrence (but not first or last), consider using the native str.rsplit(end, ocurrence)[0]+end."""
         return String(end.join(self.split(end, occurrence)[:occurrence]) + end)
     def endingbefore(self, end: str, occurrence=1) -> String:
         """Returns the substring from the beginning until (NOT including) the given text.\n
         The optional 'ocurrence' parameter can be used to consider the Nth ocurrence of the text.\n
         An IndexError is raised it the text is not found.\n
         For occurrence=1 (default), consider using the native str.partition(end)[0].\n
-        For last occurrence, consider using the native str.rpartition(end)[0]."""
+        For last occurrence, consider using the native str.rpartition(end)[0].\n
+        For a known Nth ocurrence (but not first or last), consider using the native str.rsplit(end, ocurrence)[0]."""
         return String(end.join(self.split(end, occurrence)[:occurrence]))
     def contains_all(self, *strings: str) -> bool:
         return all(x in self for x in strings)

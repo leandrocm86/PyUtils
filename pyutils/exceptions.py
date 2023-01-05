@@ -1,0 +1,19 @@
+def maybe(function):
+    """ Evaluates the given function in a safe manner, supressing any possible exception.\n"""
+    """ If no exception occurs, the function's output is returned. Otherwise, None is returned."""
+    try:
+        return function()
+    except:
+        return None
+
+
+class default():
+    """ Initializes a variable with a default value to be used if the following expression raises an exception.\n"""
+    """ Expected to be used as a 'with' statement, to suppress any possible exception.\n"""
+    """ Example: with default(0) as x: x = 10/y """
+    def __init__(self, default):
+        self.default = default
+    def __enter__(self):
+        return self.default
+    def __exit__(self, type, value, traceback):
+        return True
