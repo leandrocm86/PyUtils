@@ -1,24 +1,6 @@
 from pyutils.strings import String
 
 
-def test_line_with():
-    text = String('abaxi ácido\nbanana doce\nlaranja doce\nmorango bom')
-    assert text.line_with('banana') == 'banana doce'
-    assert text.line_with('banana', 'doce') == 'banana doce'
-    assert text.line_with('abacate') == None
-
-
-def test_lines_with():
-    text = String('abaxi ácido\nbanana doce\nlaranja doce\nmorango bom')
-    assert text.lines_with('doce') == ['banana doce', 'laranja doce']
-    assert text.lines_with('azedo') == []
-
-
-def test_cell_with():
-    text = String('↳ Corsair Corsair STRAFE Gaming Keyboard Consumer Control   id=19   [slave  keyboard (3)]')
-    assert text.cell_with('id=') == 'id=19'
-
-
 def test_starting_after():
     text = String('AAAabcZZZdefAAAglAAAmAAApqr')
     assert text.startingafter('AAA', 3) == 'mAAApqr'

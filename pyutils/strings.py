@@ -22,8 +22,6 @@ class String(str):
         return str.__len__(self.val)
     def __getitem__(self, i):
         return String(self.val.__getitem__(i))
-    def __setitem__(self, i, v):
-        self.val.__setitem__(i, v)
     def __int__(self):
         return int(self.val)
     def __float__(self):
@@ -122,24 +120,8 @@ class String(str):
         """ Mutable version of replace() """
         self.val = str.replace(self, old, new)
         return self
-    def remove_last(self, n: int) -> String:
-        return String(self[0 : len(self) - n])
-    def cut(self, *separator: str):
-        return [String(s) for s in str.split(self, *separator)]
     def lines(self):
         return [String(l) for l in self.val.splitlines() if l and l.strip()]
-    def lines_with(self, *strings: str):
-        return [l for l in self.cut('\n') if all(s in l for s in strings)]
-    def line_with(self, *strings: str) -> String:
-        lines = self.lines_with(*strings)
-        assert(len(lines) <= 1)
-        return lines[0] if lines else None
-    def cells_with(self, *strings: str):
-        return [c for c in self.cut() if all(s in c for s in strings)]
-    def cell_with(self, *strings: str) -> String:
-        cells = self.cells_with(*strings)
-        assert(len(cells) <= 1)
-        return cells[0] if cells else None
     def empty(self) -> bool:
         return not self.val or not self.val.strip()
     def add(self, string: str, index=None) -> String:
