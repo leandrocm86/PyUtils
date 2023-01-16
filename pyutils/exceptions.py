@@ -3,7 +3,7 @@ def maybe(function):
     """ If no exception occurs, the function's output is returned. Otherwise, None is returned."""
     try:
         return function()
-    except:
+    except Exception:
         return None
 
 
