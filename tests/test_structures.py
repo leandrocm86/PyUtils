@@ -6,6 +6,7 @@ def test_average():
     assert Lists.average([]) == 0
     assert Lists.average(i for i in range(11)) == 5
     assert Lists.average(i for i in range(3) if i > 3) == 0
+    assert Lists.average(['a', 'ab', 'abc'], lambda s: len(s)) == 2
 
 
 def test_groupby():
