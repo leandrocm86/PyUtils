@@ -1,4 +1,10 @@
-def maybe(function):
+from typing import Callable, TypeVar
+
+
+_T = TypeVar("_T")
+
+
+def maybe(function: Callable[[], _T]) -> _T | None:
     """ Evaluates the given function in a safe manner, supressing any possible exception.\n"""
     """ If no exception occurs, the function's output is returned. Otherwise, None is returned."""
     try:

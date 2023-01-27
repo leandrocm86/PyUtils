@@ -1,14 +1,22 @@
 from collections.abc import Iterator
-from typing import Callable
+from typing import Callable, TypeVar, Any
+
+_T = TypeVar("_T")
 
 
 class Lists:
 
     @staticmethod
-    def average(listable: Iterator | list, function=lambda x: x, default=0):
+    def __to_float(x):
+        if isinstance(x, float) or isinstance(x, int) or isinstance(x, str):
+            return float(x)
+        raise Exception(f'Object of type {type} cannot be converted to float.')
+
+    @staticmethod
+    def average(listable: Iterator[_T] | list[_T], function: Callable[[_T], float] = __to_float, default=0.0) -> float:
         """ Returns the average of a list. If it's empty, a default value is returned.\n
             An optional function may be specified to extract the value for each item in the list.\n
-            By default, the value for each item is the item itself (an error will be thrown if it's not numeric). """
+            By default, the value for each item is the item itself (an error will be thrown if it's not convertible to float). """
         listable = list(listable)
         if not listable:
             return default
@@ -16,7 +24,7 @@ class Lists:
         return fmean([function(x) for x in listable])
 
     @staticmethod
-    def groupby(list: list, keyfunction: Callable, ignore_nones=True) -> dict:
+    def groupby(list: list[_T], keyfunction: Callable[[_T], Any], ignore_nones=True) -> dict:
         """ Similar to more_itertools.map_reduce, grouping items from a list into a dict.\n
             They are different from itertools.groupby because don't need to be sorted beforehand,\n
             and also because they return a whole dict instead of iterators. """
@@ -35,6 +43,10 @@ class Lists:
             return list[index] if list[index] else default
         except IndexError:
             return default
+
+    @staticmethod
+    def print(list: list[_T], header='', elem_to_string: Callable[[_T], str] = lambda e: str(e), separator=', '):
+        print(header + separator.join([elem_to_string(e) for e in list]))
 
 
 class Dicts:

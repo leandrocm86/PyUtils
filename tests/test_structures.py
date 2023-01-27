@@ -24,6 +24,11 @@ def test_get():
     assert Lists.get([1, 2, 0], -1, 5) == 5
 
 
+def test_lists_print(capfd):  # capfd is a fixture to capture stdout and stderr
+    Lists.print(['abc', 'def', 'ghi'], 'Print Test: ')
+    assert capfd.readouterr().out == 'Print Test: abc, def, ghi\n'
+
+
 def test_put_if_value():
     d = {}
     Dicts.put_if_value(d, 'a', 1)

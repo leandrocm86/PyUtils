@@ -2,6 +2,11 @@
     "python.testing.pytestArgs": [
         "."
     ],
+    "workbench.colorTheme": "Laravel PyCharm Theme",
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "python.analysis.typeCheckingMode": "basic",
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": ["--ignore=E402,E501,E701,E702"]
 }
