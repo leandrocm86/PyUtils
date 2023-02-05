@@ -1,7 +1,11 @@
 from typing import Callable, TypeVar
+from contextlib import suppress
 
 
 _T = TypeVar("_T")
+
+# Expected to be used as a 'with' statement, to suppress any possible exception.
+care = suppress(BaseException)
 
 
 def maybe(function: Callable[[], _T]) -> _T | None:
@@ -11,17 +15,3 @@ def maybe(function: Callable[[], _T]) -> _T | None:
         return function()
     except Exception:
         return None
-
-
-# ABANDONADO PORQUE INTERROMPE NULL_SAFE NA CHECAGEM DE TIPO.
-# MELHOR USAR MAYBE COM OPERADOR 'OR'
-# class default():
-#     """ Initializes a variable with a default value to be used if the following expression raises an exception.\n"""
-#     """ Expected to be used as a 'with' statement, to suppress any possible exception.\n"""
-#     """ Example: with default(0) as x: x = 10/y """
-#     def __init__(self, default):
-#         self.default = default
-#     def __enter__(self):
-#         return self.default
-#     def __exit__(self, type, value, traceback):
-#         return True
