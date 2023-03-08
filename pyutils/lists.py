@@ -1,6 +1,4 @@
-from typing import Callable, Generator, Generic, Iterable, Tuple, TypeVar, Any
-
-from pyparsing import anyOpenTag
+from typing import Callable, Iterable, Tuple, TypeVar, Any
 
 _T = TypeVar('_T')
 
@@ -47,10 +45,35 @@ def flat(list_of_lists: Iterable[_T | Iterable[_T] | Iterable[Iterable[_T]]]) ->
 
     def add(iterable):
         for item in iterable:
-            if isinstance(item, Iterable) and not isinstance(item, str): # str is also an Iterable, but we must treat it as an element in this context.
+            if isinstance(item, Iterable) and not isinstance(item, str):  # str is also an Iterable, but we must treat it as an element in this context.
                 add(item)
             else:
                 flatlist.append(item)
 
     add(list_of_lists)
     return flatlist
+
+
+def compare(list1: Iterable[_T], list2: Iterable[_T]) -> Tuple[list[_T], list[_T], list[_T]]:
+    '''
+        Compares two collections and returns a tuple with the following values:\n
+        [0] - items present in both collections;\n
+        [1] - items present exclusively in the first collection;\n
+        [2] - items present exclusively in the second collection
+    '''
+    commons, list1_exclusives, list2_exclusives = [], [], []
+
+    for item in list1:
+        if item in list2:
+            print(f'Item {item} present in both')
+            commons.append(item)
+        else:
+            print(f'Item {item} present only in first')
+            list1_exclusives.append(item)
+
+    for item in list2:
+        if item not in commons:
+            print(f'Item {item} present only in second')
+            list2_exclusives.append(item)
+
+    return commons, list1_exclusives, list2_exclusives

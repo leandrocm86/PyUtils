@@ -1,6 +1,5 @@
-from array import ArrayType
-from pyutils.lists import average, groupby, printlist, flat
-import numpy
+from pyutils.lists import average, groupby, printlist, flat, compare
+
 
 def test_average():
     assert average([1, 2, 3]) == 2
@@ -33,3 +32,7 @@ def test_flat():
     assert flat([[1, [2]], [3, 4]]) == [1, 2, 3, 4]
     assert flat(i for i in range(10) if i % 2 == 0) == [0, 2, 4, 6, 8]
     assert flat([['abc', 'def'], ['ghi']]) == ['abc', 'def', 'ghi']
+
+
+def test_compare():
+    assert compare([1, 2, 3, 4, 5, 6], [3, 4, 5, 6, 7, 8]) == ([3, 4, 5, 6], [1, 2], [7, 8])
