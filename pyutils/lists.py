@@ -1,6 +1,8 @@
-from typing import Callable, Iterable, TypeVar, Any
+from typing import Callable, Generator, Generic, Iterable, Tuple, TypeVar, Any
 
-_T = TypeVar("_T")
+from pyparsing import anyOpenTag
+
+_T = TypeVar('_T')
 
 
 def __to_float(x):
@@ -36,12 +38,16 @@ def printlist(list: Iterable[_T], header='', elem_to_string: Callable[[_T], str]
     print(header + separator.join([elem_to_string(e) for e in list]))
 
 
-def flat(list_of_lists: Iterable[_T | Iterable]) -> list[_T]:
+def flat(list_of_lists: Iterable[_T | Iterable[_T] | Iterable[Iterable[_T]]]) -> list[_T]:
+    '''
+        Flattens n-depth collections (multidimensional arrays), outputing a single regular list with all inner elements.\n
+        note: type hints get confused after depth = 3 (list of lists of lists).
+    '''
     flatlist = []
 
-    def add(list: Iterable):
-        for item in list:
-            if isinstance(item, Iterable):
+    def add(iterable):
+        for item in iterable:
+            if isinstance(item, Iterable) and not isinstance(item, str): # str is also an Iterable, but we must treat it as an element in this context.
                 add(item)
             else:
                 flatlist.append(item)
