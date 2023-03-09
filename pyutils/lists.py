@@ -65,15 +65,12 @@ def compare(list1: Iterable[_T], list2: Iterable[_T]) -> Tuple[list[_T], list[_T
 
     for item in list1:
         if item in list2:
-            print(f'Item {item} present in both')
             commons.append(item)
         else:
-            print(f'Item {item} present only in first')
             list1_exclusives.append(item)
 
     for item in list2:
         if item not in commons:
-            print(f'Item {item} present only in second')
             list2_exclusives.append(item)
 
     return commons, list1_exclusives, list2_exclusives
