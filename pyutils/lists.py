@@ -1,6 +1,7 @@
-from typing import Callable, Iterable, Tuple, TypeVar, Any
+from typing import Callable, Iterable, Tuple, TypeVar
 
 _T = TypeVar('_T')
+_S = TypeVar('_S')
 
 
 def __to_float(x):
@@ -20,7 +21,7 @@ def average(listable: Iterable[_T], function: Callable[[_T], float] = __to_float
     return fmean([function(x) for x in listable])
 
 
-def groupby(list: Iterable[_T], keyfunction: Callable[[_T], Any], ignore_nones=True) -> dict:
+def groupby(list: Iterable[_T], keyfunction: Callable[[_T], _S], ignore_nones=True) -> dict[_S, list[_T]]:
     """ Similar to more_itertools.map_reduce, grouping items from a list into a dict.\n
         They are different from itertools.groupby because don't need to be sorted beforehand,\n
         and also because they return a whole dict instead of iterators. """
@@ -57,9 +58,9 @@ def flat(list_of_lists: Iterable[_T | Iterable[_T] | Iterable[Iterable[_T]]]) ->
 def compare(list1: Iterable[_T], list2: Iterable[_T]) -> Tuple[list[_T], list[_T], list[_T]]:
     '''
         Compares two collections and returns a tuple with the following values:\n
-        [0] - items present in both collections;\n
-        [1] - items present exclusively in the first collection;\n
-        [2] - items present exclusively in the second collection
+        [0] - items present in both collections; # similar to set(list1).intersection(list2)\n
+        [1] - items present exclusively in the first collection; # similar to set(list1).difference(list2)\n
+        [2] - items present exclusively in the second collection # similar to set(list2).difference(list1)
     '''
     commons, list1_exclusives, list2_exclusives = [], [], []
 

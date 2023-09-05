@@ -1,7 +1,7 @@
 class System:
 
     @staticmethod
-    def read(commands, log_silent=False, timeout=10):
+    def read(commands, log_silent=False, timeout=10.0):
         """ Executes the given commands on the OS and returns their output.\n
             This call is always synchronous, but there is a timeout parameter for maximum wait."""
         if not log_silent:
@@ -20,7 +20,7 @@ class System:
         return String(output.strip())
 
     @staticmethod
-    def exec(commands, ignore_output=False, log_silent=False, timeout=10):
+    def exec(commands, ignore_output=False, log_silent=False, timeout=10.0):
         """ Executes the given commands on the OS. Doesn't expect an output.\n
         An Exception is thrown if there is an output, unless the second parameter is True. """
         if ignore_output:
@@ -34,13 +34,13 @@ class System:
             output = System.read(commands, log_silent, timeout)
             if output and output.strip():
                 raise Exception("Unexpected output for System.exec():", output)
-    
+
     @staticmethod
     def exec_async(commands, log_silent=False):
-        """ Execute the commands on the OS, not waiting for their output.\n 
+        """ Execute the commands on the OS, not waiting for their output.\n
         It's not possible to check the output, nor setting a timeout."""
         System.exec(commands, True, log_silent, 0)
-    
+
     @staticmethod
     def file_path(file):
         """ Returns the full path of the given file.\n
@@ -59,11 +59,11 @@ class System:
         currentpath = os.path.dirname(os.path.realpath(file))
         parentpath = os.path.dirname(currentpath)
         if not silent:
-            print(f'Appending {parentpath} on sys.path')                                                                                                                      
+            print(f'Appending {parentpath} on sys.path')
         sys.path.append(parentpath)
-    
+
     @staticmethod
-    def wait_for(func, timeout=0, poll_interval=2):
+    def wait_for(func, timeout=0, poll_interval=2.0):
         """ Waits for a function evaluation to return an existing result (different than None, empty, etc).\n
         The function is evaluated during each poll (2-sec intervals by default).\n
         The result is returned when it exists (function output evaluated to True).\n
@@ -72,12 +72,10 @@ class System:
         from time import sleep
         waited = 0
         while timeout == 0 or waited < timeout:
-             sleep(poll_interval)
-             result = func()
-             if result:
+            sleep(poll_interval)
+            result = func()
+            if result:
                 return result
-             waited += poll_interval
+            waited += poll_interval
         from subprocess import TimeoutExpired
         raise TimeoutExpired(str(func), timeout)
-    
-

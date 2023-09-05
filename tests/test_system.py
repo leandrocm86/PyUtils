@@ -12,7 +12,7 @@ def test_read():
 
 def test_read_error():
     output = System.read('ofjho0eijf')
-    assert 'not found' in output 
+    assert 'not found' in output
 
 
 def test_exec():
@@ -42,7 +42,7 @@ def test_exec_timeout():
     assert Clock.check() < 0.2
     try:
         System.exec('sleep 1', timeout=0.2)
-    except: assert 0.2 <= Clock.check() < 0.3
+    except TimeoutExpired: assert 0.2 <= Clock.check() < 0.3
 
 
 def test_file_path():
@@ -67,4 +67,3 @@ def test_wait_for_fail():
     with pytest.raises(TimeoutExpired):
         System.wait_for(lambda: None, 1, 0.1)
     assert Clock.check() >= 1
-

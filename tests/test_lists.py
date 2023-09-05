@@ -10,7 +10,7 @@ def test_average():
 
 
 def test_groupby():
-    test_list = []
+    test_list: list[int] = []
     test_list.append(1); test_list.append(2); test_list.append(3)
     result = groupby(test_list, lambda x: x % 2)
     assert result == {1: [1, 3], 0: [2]}
@@ -32,6 +32,7 @@ def test_flat():
     assert flat([[1, [2]], [3, 4]]) == [1, 2, 3, 4]
     assert flat(i for i in range(10) if i % 2 == 0) == [0, 2, 4, 6, 8]
     assert flat([['abc', 'def'], ['ghi']]) == ['abc', 'def', 'ghi']
+    assert flat([['abc', None]]) == ['abc', None]
 
 
 def test_compare():
