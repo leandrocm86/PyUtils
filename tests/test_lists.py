@@ -10,8 +10,7 @@ def test_average():
 
 
 def test_groupby():
-    test_list: list[int] = []
-    test_list.append(1); test_list.append(2); test_list.append(3)
+    test_list = [1, 2, 3]
     result = groupby(test_list, lambda x: x % 2)
     assert result == {1: [1, 3], 0: [2]}
     result = groupby(test_list, lambda x: str(x) if x < 3 else None)

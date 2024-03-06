@@ -35,14 +35,15 @@ def test_read_timeout():
 
 
 def test_exec_timeout():
-    Clock.start()
+    clock = Clock(precision=1)
     System.exec('sleep 0.2')
-    assert Clock.check() >= 0.2
+    assert clock.check() >= 0.2
     System.exec_async('sleep 0.2')
-    assert Clock.check() < 0.2
+    assert clock.check() < 0.2
     try:
         System.exec('sleep 1', timeout=0.2)
-    except TimeoutExpired: assert 0.2 <= Clock.check() < 0.3
+    except TimeoutExpired:
+        assert 0.2 <= clock.check() < 0.3
 
 
 def test_file_path():
@@ -63,7 +64,7 @@ def test_wait_for():
 
 
 def test_wait_for_fail():
-    Clock.check()
+    clock = Clock()
     with pytest.raises(TimeoutExpired):
         System.wait_for(lambda: None, 1, 0.1)
-    assert Clock.check() >= 1
+    assert clock.check() >= 1
