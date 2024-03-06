@@ -21,13 +21,15 @@ def average(listable: Iterable[_T], function: Callable[[_T], float] = __to_float
     return fmean([function(x) for x in listable])
 
 
-def groupby(list: Iterable[_T], keyfunction: Callable[[_T], _S], ignore_nones=True) -> dict[_S, list[_T]]:
-    """ Similar to more_itertools.map_reduce, grouping items from a list into a dict.\n
-        They are different from itertools.groupby because don't need to be sorted beforehand,\n
-        and also because they return a whole dict instead of iterators. """
+def groupby(list: Iterable[_T], key: Callable[[_T], _S] = lambda e: e, ignore_nones=True) -> dict[_S, list[_T]]:
+    """ Similar to more_itertools.map_reduce, grouping items from a list into a dict of lists.\n
+        The key parameter is the function to be applied on each item to define its key on the dict.\n
+        If no key function is provided, the element itself will be its own key.\n
+        This implementation is different from itertools.groupby because the list doesn't need to be sorted beforehand,\n
+        and also because it returns a whole dict instead of iterators. """
     output = {}
     for e in list:
-        key = keyfunction(e)
+        key = key(e)
         if key is not None or not ignore_nones:
             output.setdefault(key, []).append(e)
     return output
